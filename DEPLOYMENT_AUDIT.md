@@ -16,8 +16,8 @@ Stack: Vite + React client (`client/`), Express server bundled with esbuild (`se
   - `DATABASE_URL` (required by `drizzle.config.ts` during migrations)
   - `NODE_ENV` (`production` in Vercel)
   - `PORT` (only for self-hosting; Vercel sets its own)
-  - Optional build hints: `REPLIT_INTERNAL_APP_DOMAIN` / `REPLIT_DEV_DOMAIN` (meta image plugin) if applicable
-- Case sensitivity: asset/import paths must match casing exactly (Linux deploys are case-sensitive). Example: `Header.tsx` must not be imported as `./header`.
+  - Optional dev helpers (Replit-only): `REPL_ID` for dev tooling, `REPLIT_INTERNAL_APP_DOMAIN` / `REPLIT_DEV_DOMAIN` for the meta image plugin. Not needed on Vercel.
+- Case sensitivity: asset/import paths must match casing exactly (Linux deploys are case-sensitive). Example: `Header.tsx` must be imported as `./Header` (not `./header`).
 
 ## 3) Performance & Asset Optimization
 - Images: prefer WebP/AVIF; serve through Vite static assets. Use `<img loading="lazy">` or component-level lazy loading where appropriate.
@@ -28,10 +28,10 @@ Stack: Vite + React client (`client/`), Express server bundled with esbuild (`se
 - Added `vercel.json` with:
   - `cleanUrls: true` (drops `.html`)
   - `trailingSlash: false` (standardizes URLs)
-  - Redirect: `www.website-version-2-singapore.vercel.app` → apex HTTPS
+  - Domain-agnostic `www` → apex redirect via the `handle: "www"` route
   - SPA fallback route to `index.html` after the filesystem check
-  - Long-term cache headers for static assets
-- Update the redirect host in `vercel.json` if you use a custom domain (e.g., replace with `www.<your-domain>` → `<your-domain>`).
+  - Long-term cache headers for static assets (JSON intentionally excluded to avoid staleness)
+- Custom domains work without edits; if you prefer a different canonicalization, adjust `routes` accordingly.
 
 ## Quick Deploy Checklist
 1. `npm install && npm run build`

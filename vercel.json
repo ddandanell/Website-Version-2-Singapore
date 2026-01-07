@@ -5,26 +5,14 @@
   "outputDirectory": "dist/public",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.website-version-2-singapore.vercel.app"
-        }
-      ],
-      "destination": "https://website-version-2-singapore.vercel.app/$1",
-      "permanent": true
-    }
-  ],
   "routes": [
+    { "handle": "www" },
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
   ],
   "headers": [
     {
-      "source": "/(.*\\.(?:css|js|mjs|ts|tsx|json|png|jpg|jpeg|gif|svg|webp|ico|woff|woff2|ttf|otf))",
+      "source": "/(.*\\.(css|js|mjs|png|jpg|jpeg|gif|svg|webp|ico|woff|woff2|ttf|otf|wasm|xml|txt)$)",
       "headers": [
         {
           "key": "Cache-Control",
